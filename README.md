@@ -7,15 +7,15 @@
 MUSE was accepted by Interspeech 2024. [arxiv](https://arxiv.org/pdf/2406.04589) -->
 ## Pre-requisites
 1. Clone this repository.
-2. 运行以下命令会创建一个名为imse的conda环境，并且在imse环境中安装模型运行所需的python requirements。
+2. Run the following command to create a conda environment named imse and install the required Python dependencies in the imse environment.
 ```
 conda env create -f environment.yml
 ```
-4. Download and extract the [VoiceBank-DEMAND-16k](https://huggingface.co/datasets/JacobLinCool/VoiceBank-DEMAND-16k). 使用 downsampling.py 去处理数据集，使数据集符合训练模型所需的格式，请认真读一下代码，了解运行 downsampling.py 的clean_train_path、noisy_train_path、clean_test_path、resample_path这四个变量，调整为你的项目目录后运行。
+4. Download and extract the [VoiceBank-DEMAND-16k](https://huggingface.co/datasets/JacobLinCool/VoiceBank-DEMAND-16k). Use downsampling.py to process the dataset to format it for model training. Please read the code carefully to understand the four variables required to run downsampling.py: clean_train_path, noisy_train_path, clean_test_path, and resample_path. Adjust them to your project directory and then run the script.
 ```
 python downsampling.py
 ```
-5. 运行 make_file_list.py 去获得training.txt和test.txt文件去进行模型训练
+5.Run make_file_list.py to obtain the training.txt and test.txt files for model training.
 ```
 python make_file_list.py --train_clean_path "your train_clean_path" --train_noisy_path "your noisy_train_path" --test_clean_path "your clean_test_path" --test_noisy_path "your noisy_test_path"
 ```
@@ -28,15 +28,15 @@ python train.py --config config.json --input_training_file training.txt --input_
 
 
 ## Inference
-1. 先使用 inference.py 去获得你的模型推理得到的降噪过后的 noisy_wav_dir
+1. First, use inference.py to generate the denoised audio files from your model.
 ```
 python inference.py --input_clean_wavs_dir "your clean_test_path" --input_noisy_wavs_dir "your noisy_test_path" --output_dir "your generated_files" --checkpoint_file "your g_best_pesq_3.xx"
 ```
-2. 使用 create_test_list.py 去获得与 "your generated_files" 对应的test_final.txt文件在运行 cal_metrics.py 中使用
+2. Use create_test_list.py to generate the test_final.txt file corresponding to "your generated_files", which will be used when running cal_metrics.py.
 ```
 python create_test_list.py --test_dir_to_scan "your generated_files"
 ```
-3. 使用 cal_metrics.py 去计算你的最优模型的 PESQ CSIG CBAK COVL STOI 指标
+3. Use cal_metrics.py to calculate the PESQ, CSIG, CBAK, COVL, and STOI metrics for your best model.
 ```
 python cal_metrics.py --clean_wav_dir "your clean_test_path" --noisy_wav_dir "your generated_files" --input_test_file "your test_final.txt"
 ```
