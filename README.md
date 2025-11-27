@@ -1,16 +1,23 @@
-<!-- # MUSE: Flexible Voiceprint Receptive Fields and Multi-Path Fusion Enhanced Taylor Transformer for U-Net-based Speech Enhancemen (Accepeted at Interspeech 2024)
-### Zizhen Lin, Xiaoting Chen, Junyu Wang
+# IMSE: Efficient U-Net-based Speech Enhancement using Inception Depthwise Convolution and Amplitude-Aware Linear Attention
+### Xinxin Tang Bin Qin Yufang Li
+
 
 **Abstract:** 
- Achieving a balance between lightweight design and high performance remains a challenging task for speech enhancement. In this paper, we introduce Multi-path Enhanced Taylor (MET) Transformer based U-net for Speech Enhancement (MUSE), a lightweight speech enhancement network built upon the U-net architecture. Our approach incorporates a novel Multi-path Enhanced Taylor (MET) Transformer block, which integrates Deformable Embedding (DE) to enable flexible receptive fields for voiceprints. The MET Transformer is uniquely designed to fuse Channel and Spatial Attention (CSA) branches, facilitating channel information exchange and addressing spatial attention deficits within the Taylor-Transformer framework. Through extensive experiments conducted on the VoiceBank+DEMAND dataset, we demonstrate that MUSE achieves competitive performance while significantly reducing both training and deployment costs, boasting a mere 0.51M parameters.
+ Achieving a balance between lightweight design and high performance remains a significant challenge for speech enhancement (SE) tasks on resource-constrained devices. Existing state-of-the-art methods, such as MUSE, have established a strong baseline with only 0.51M parameters by introducing a Multi-path Enhanced Taylor (MET) transformer and Deformable Embedding (DE). However, an in-depth analysis reveals that MUSE still suffers from efficiency bottlenecks: the MET module relies on a complex ”approximatecompensate” mechanism to mitigate the limitations of Taylorexpansion-based attention, while the offset calculation for deformable embedding introduces additional computational burden. This paper proposes IMSE, a systematically optimized and ultra-lightweight network. We introduce two core innovations: 1) Replacing the MET module with Amplitude-Aware Linear Attention (MALA). MALA fundamentally rectifies the ”amplitude-ignoring” problem in linear attention by explicitly preserving the norm information of query vectors in the attention calculation, achieving efficient global modeling without an auxiliary compensation branch. 2) Replacing the DE module with Inception Depthwise Convolution (IDConv). IDConv borrows the Inception concept, decomposing large-kernel operations into efficient parallel branches (square, horizontal, and vertical strips), thereby capturing spectrogram features with extremely low parameter redundancy. Extensive experiments on the VoiceBank+DEMAND dataset demonstrate that, compared to the MUSE baseline, IMSE significantly reduces the parameter count by 16.8% (from 0.513M to 0.427M) while achieving competitive performance comparable to the state-of-the-art on the PESQ metric (3.373). This study sets a new benchmark for the trade-off between model size and speech quality in ultralightweight speech enhancement
 
-MUSE was accepted by Interspeech 2024. [arxiv](https://arxiv.org/pdf/2406.04589) -->
+<!--   MUSE was accepted by Interspeech 2024. [arxiv](https://arxiv.org/pdf/2406.04589)       -->
 ## Pre-requisites
 1. Clone this repository.
 2. Run the following command to create a conda environment named imse and install the required Python dependencies in the imse environment.
 ```
 conda env create -f environment.yml
 ```
+3. activate conda env
+
+```
+conda activate imse
+```
+
 4. Download and extract the [VoiceBank-DEMAND-16k](https://huggingface.co/datasets/JacobLinCool/VoiceBank-DEMAND-16k). Use downsampling.py to process the dataset to format it for model training. Please read the code carefully to understand the four variables required to run downsampling.py: clean_train_path, noisy_train_path, clean_test_path, and resample_path. Adjust them to your project directory and then run the script.
 ```
 python downsampling.py
