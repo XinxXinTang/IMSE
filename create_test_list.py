@@ -30,7 +30,8 @@ else:
     print(f"Found {len(test_file_names)} .wav files. Generating test.txt...")
 
 # 2. 写入 test.txt
-with open('test.txt', 'w') as test_txt:
+output_path = './test_final.txt'
+with open(output_path, 'w') as test_txt:
     for file_name in tqdm(test_file_names):
         # 提取文件名 (不带.wav)
         file_id = file_name.split('.')[0]
