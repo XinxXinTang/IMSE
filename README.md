@@ -30,7 +30,7 @@ python make_file_list.py --train_clean_path "your train_clean_path" --train_nois
 ## Training
 For single GPU (Recommend), MUSE needs at least 8GB GPU memery.
 ```
-python train.py --config config.json --input_training_file training.txt --input_validation_file test.txt
+CUDA_VISIBLE_DEVICES=0 python train.py --config config.json --input_training_file training.txt --input_validation_file test.txt
 ```
 
 
